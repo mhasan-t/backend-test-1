@@ -10,7 +10,7 @@ export const PostSchema = {
 			maxLength: 500,
 		},
 		date_time: {
-			type: "number",
+			type: "string", //needs to be string to allow formdata type request
 		},
 	},
 	required: ["title", "description", "date_time"],

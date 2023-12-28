@@ -7,6 +7,7 @@ type JsonResponse<T> = {
 	data?: T;
 };
 
+// GET ALL POSTS
 export async function getAll(req: Request, res: Response) {
 	const allPosts = await queryAll();
 	let message, data;
@@ -28,14 +29,20 @@ export async function getAll(req: Request, res: Response) {
 		.json(result);
 }
 
+// CREATE NEW POST
 export async function insert(req: Request, res: Response) {
 	// validate time
-	if (req.body.date_time > new Date().getTime()) {
+	req.body.date_time = Number(req.body.date_time);
+	if (
+		Number.isNaN(req.body.date_time) ||
+		req.body.date_time > new Date().getTime()
+	) {
 		return res
 			.status(400)
 			.setHeader("Content-Type", "application/json")
 			.json({
-				message: "The date_time value must be in the past.",
+				message:
+					"The date_time value must be in the past and it must be a number.",
 			});
 	}
 

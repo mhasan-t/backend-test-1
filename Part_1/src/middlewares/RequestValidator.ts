@@ -28,7 +28,7 @@ export default function RequestValidator(
 			let errMessages: (string | undefined)[] = [];
 			if (errors) {
 				errMessages = errors.map((error) => {
-					return error.message;
+					return error.instancePath + " " + error.message;
 				});
 			}
 			return res.status(400).json({

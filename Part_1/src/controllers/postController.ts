@@ -29,8 +29,17 @@ export async function getAll(req: Request, res: Response) {
 }
 
 export async function insert(req: Request, res: Response) {
-	let newRef;
+	// validate time
+	if (req.body.date_time > new Date().getTime()) {
+		return res
+			.status(400)
+			.setHeader("Content-Type", "application/json")
+			.json({
+				message: "The date_time value must be in the past.",
+			});
+	}
 
+	let newRef;
 	try {
 		newRef = await queryInsert(req.body);
 	} catch (e) {

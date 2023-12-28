@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { queryAll } from "../services/postService.js";
+import { queryAll, queryInsert } from "../services/postService.js";
 import Post from "../models/Post.js";
 
 type JsonResponse<T> = {
@@ -29,8 +29,27 @@ export async function getAll(req: Request, res: Response) {
 }
 
 export async function insert(req: Request, res: Response) {
+	let newRef;
+
+	try {
+		newRef = await queryInsert(req.body);
+	} catch (e) {
+		console.log(e);
+		return res
+			.status(500)
+			.setHeader("Content-Type", "application/json")
+			.json({
+				message: "Something went wrong.",
+			});
+	}
+
+	const result: JsonResponse<{ id: string }> = {
+		message: "Post created successfully.",
+		data: { id: newRef },
+	};
+
 	return res
 		.status(201)
 		.setHeader("Content-Type", "application/json")
-		.json("HI");
+		.json(result);
 }

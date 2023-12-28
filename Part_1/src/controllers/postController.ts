@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import { queryAll, queryInsert } from "../services/postService.js";
 import Post from "../models/Post.js";
+import { validateInsert } from "../validators/functions/postValidators.js";
 
 type JsonResponse<T> = {
 	message: string;
@@ -31,24 +32,21 @@ export async function getAll(req: Request, res: Response) {
 
 // CREATE NEW POST
 export async function insert(req: Request, res: Response) {
-	// validate time
-	req.body.date_time = Number(req.body.date_time);
-	if (
-		Number.isNaN(req.body.date_time) ||
-		req.body.date_time > new Date().getTime()
-	) {
+	// most of the time, ajv will take care of json validation, but in case of files or special case like timestamp, we need to do it manually like below
+	const valid = validateInsert(req);
+	if (!valid.isValid) {
 		return res
 			.status(400)
 			.setHeader("Content-Type", "application/json")
 			.json({
-				message:
-					"The date_time value must be in the past and it must be a number.",
+				message: valid.messages,
 			});
 	}
 
-	let newRef;
+	// insertion
+	let newPost;
 	try {
-		newRef = await queryInsert(req.body);
+		newPost = await queryInsert(req.body);
 	} catch (e) {
 		return res
 			.status(500)
@@ -58,9 +56,10 @@ export async function insert(req: Request, res: Response) {
 			});
 	}
 
-	const result: JsonResponse<{ id: string }> = {
+	// return result
+	const result: JsonResponse<Post> = {
 		message: "Post created successfully.",
-		data: { id: newRef },
+		data: newPost,
 	};
 
 	return res

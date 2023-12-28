@@ -33,5 +33,5 @@ export async function queryInsert(post: Post) {
 
 	await db.update(({ posts }) => posts.push(post));
 
-	return post.reference;
+	return post;
 }

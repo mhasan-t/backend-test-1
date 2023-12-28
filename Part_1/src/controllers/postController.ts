@@ -2,6 +2,7 @@ import { Request, Response } from "express";
 import { queryAll, queryInsert } from "../services/postService.js";
 import Post from "../models/Post.js";
 import { validateInsert } from "../validators/functions/postValidators.js";
+import { ResizeImagesAndSave } from "../utils.js";
 
 type JsonResponse<T> = {
 	message: string;
@@ -42,6 +43,11 @@ export async function insert(req: Request, res: Response) {
 				message: valid.messages,
 			});
 	}
+
+	// compress images
+	const files = req.files as any;
+	const mainImageFileName = await ResizeImagesAndSave(files.main_image);
+	req.body.main_image = mainImageFileName;
 
 	// insertion
 	let newPost;

@@ -26,6 +26,9 @@ function filter(req: object, file: Express.Multer.File, cb: Function) {
 const postStorage = multer({
 	storage: storage,
 	fileFilter: filter,
+	limits: {
+		fileSize: 1024 * 1024, // max size in bytes
+	},
 });
 
 export default postStorage;

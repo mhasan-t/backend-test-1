@@ -1,9 +1,9 @@
 import cors from "cors";
 import express, { Request, Response } from "express";
-import JsonOrFormData from "./src/middlewares/JsonOrFormdata";
+import JsonOrFormData from "./src/middlewares/JsonOrFormdata.js";
 import dotenv from "dotenv";
 
-import PostRouter from "./src/routes/postRoute";
+import PostRouter from "./src/routes/postRoute.js";
 
 dotenv.config();
 

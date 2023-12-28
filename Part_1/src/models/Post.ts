@@ -3,7 +3,7 @@ interface Post {
 	title: string;
 	description: string;
 	main_image: string;
-	additional_images: string[];
+	additional_images?: string[];
 	date_time: number;
 }
 export default Post;

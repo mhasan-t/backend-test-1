@@ -2,7 +2,8 @@
 	"name": "alba-cars-test",
 	"version": "1.0.0",
 	"description": "",
-	"main": "app.js",
+	"exports": "./app.js",
+	"type": "module",
 	"scripts": {
 		"build": "rimraf dist && npx tsc",
 		"prestart": "npm run build",

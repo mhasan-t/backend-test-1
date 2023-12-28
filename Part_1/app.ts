@@ -1,4 +1,4 @@
-import app from "./ExpressApp";
+import app from "./ExpressApp.js";
 const port = 8000;
 
 app.listen(port, () => {});

@@ -34,7 +34,6 @@ export async function insert(req: Request, res: Response) {
 	try {
 		newRef = await queryInsert(req.body);
 	} catch (e) {
-		console.log(e);
 		return res
 			.status(500)
 			.setHeader("Content-Type", "application/json")

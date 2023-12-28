@@ -11,6 +11,13 @@
 				"images/additional_image_3_test.jpg"
 			],
 			"date_time": 1671017885
+		},
+		{
+			"reference": "00002",
+			"title": "Title Test 2",
+			"description": "Description Test: 2!",
+			"main_image": "images/main_image_2_test.jpg",
+			"date_time": 1671017981
 		}
 	]
 }

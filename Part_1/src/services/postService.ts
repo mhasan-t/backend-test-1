@@ -1,10 +1,20 @@
 import Post from "../models/Post.js";
 import { getDbConnection } from "./db.js";
+import { slugify } from "../utils.js";
 
 export async function queryAll() {
 	const db = await getDbConnection();
 	await db.read();
-	return db.data.posts;
+
+	let posts = db.data.posts;
+
+	// add title slug and ISO datetime string in O(N) time complexity
+	for (let i = 0; i < posts.length; i++) {
+		posts[i].title_slug = slugify(posts[0].title);
+		posts[i].date_time_iso = new Date(posts[i].date_time).toISOString();
+	}
+
+	return posts;
 }
 
 export async function queryInsert(post: Post) {

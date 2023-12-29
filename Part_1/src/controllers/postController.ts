@@ -3,11 +3,7 @@ import { queryAll, queryInsert } from "../services/postService.js";
 import Post from "../models/Post.js";
 import { validateInsert } from "../validators/functions/postValidators.js";
 import { ResizeImagesAndSave } from "../utils.js";
-
-type JsonResponse<T> = {
-	message: string;
-	data?: T;
-};
+import { JsonResponse } from "../types.js";
 
 // GET ALL POSTS
 export async function getAll(req: Request, res: Response) {

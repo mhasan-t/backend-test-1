@@ -1,6 +1,6 @@
 import express from "express";
 import { getAll, insert } from "../controllers/postController.js";
-import { PostSchema } from "../validators/postSchemas.js";
+import { PostSchema } from "../validators/schemas/postSchemas.js";
 import RequestValidator from "../middlewares/RequestValidator.js";
 import postStorage from "../config/postStorage.js";
 

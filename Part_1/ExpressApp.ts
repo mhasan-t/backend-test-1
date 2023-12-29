@@ -4,6 +4,7 @@ import JsonOrFormData from "./src/middlewares/JsonOrFormdata.js";
 import dotenv from "dotenv";
 
 import PostRouter from "./src/routes/postRoute.js";
+import ImageRouter from "./src/routes/imageRoutes.js";
 
 dotenv.config();
 
@@ -18,5 +19,6 @@ app.use(JsonOrFormData);
 
 // ROUTERS
 app.use(PostRouter);
+app.use(ImageRouter);
 
 export default app;

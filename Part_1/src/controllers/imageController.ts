@@ -1,6 +1,6 @@
 import fs from "fs";
 import jwt from "jsonwebtoken";
-import { JsonResponse } from "../types.js";
+import { JsonResponse } from "../types";
 import { Request, Response } from "express";
 
 export async function getToken(req: Request, res: Response) {

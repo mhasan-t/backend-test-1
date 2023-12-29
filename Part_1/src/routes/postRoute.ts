@@ -1,8 +1,8 @@
 import express from "express";
-import { getAll, insert } from "../controllers/postController.js";
-import { PostSchema } from "../validators/schemas/postSchemas.js";
-import RequestValidator from "../middlewares/RequestValidator.js";
-import postStorage from "../config/postStorage.js";
+import { getAll, insert } from "../controllers/postController";
+import { PostSchema } from "../validators/schemas/postSchemas";
+import RequestValidator from "../middlewares/RequestValidator";
+import postStorage from "../config/postStorage";
 
 const router = express.Router();
 

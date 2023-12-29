@@ -1,9 +1,30 @@
 {
-    "posts": {
-        "title": "jsondb",
-        "description": "jsondb",
-        "date_time": 3232,
-        "main_image": "images/main_image-1703833270729-666215019-Black_white_cats.jpg",
-        "reference": "00005"
-    }
+    "posts": [
+        {
+            "reference": "00001",
+            "title": "Title Test",
+            "description": "Description Test",
+            "main_image": "images/main_image_1_test.jpg",
+            "additional_images": [
+                "images/additional_image_1_test.jpg",
+                "images/additional_image_2_test.jpg",
+                "images/additional_image_3_test.jpg"
+            ],
+            "date_time": 1671017885
+        },
+        {
+            "reference": "00002",
+            "title": "Title Test 2",
+            "description": "Description Test: 2!",
+            "main_image": "images/main_image_2_test.jpg",
+            "date_time": 1671017981
+        },
+        {
+            "title": "jsondb",
+            "description": "jsondb",
+            "date_time": 3232,
+            "main_image": "images/main_image-1703834279600-39342288-cat-6463284_640.jpg",
+            "reference": "00003"
+        }
+    ]
 }

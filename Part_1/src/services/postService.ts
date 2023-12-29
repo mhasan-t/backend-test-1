@@ -19,6 +19,7 @@ export async function queryInsert(post: Post) {
 	const db = await getDbConnection();
 
 	let posts = await db.getData("/posts");
+	console.log(posts);
 	const latestPost = posts[posts.length - 1];
 	let newRef = String(Number(latestPost.reference) + 1);
 
@@ -29,7 +30,7 @@ export async function queryInsert(post: Post) {
 	}
 	post.reference = String(newRef);
 
-	await db.push("/posts", post);
+	await db.push("/posts", [post], false);
 
 	return post;
 }

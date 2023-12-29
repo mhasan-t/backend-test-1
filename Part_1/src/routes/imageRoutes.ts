@@ -1,7 +1,7 @@
 import express from "express";
-import { getToken, viewImage } from "../controllers/imageController.js";
-import { TokenReq, ViewImage } from "../validators/schemas/imageSchemas.js";
-import RequestValidator from "../middlewares/RequestValidator.js";
+import { getToken, viewImage } from "../controllers/imageController";
+import { TokenReq, ViewImage } from "../validators/schemas/imageSchemas";
+import RequestValidator from "../middlewares/RequestValidator";
 
 const router = express.Router();
 

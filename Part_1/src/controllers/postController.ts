@@ -1,9 +1,9 @@
 import { Request, Response } from "express";
-import { queryAll, queryInsert } from "../services/postService.js";
-import Post from "../models/Post.js";
-import { validateInsert } from "../validators/functions/postValidators.js";
-import { ResizeImagesAndSave } from "../utils.js";
-import { JsonResponse } from "../types.js";
+import { queryAll, queryInsert } from "../services/postService";
+import Post from "../models/Post";
+import { validateInsert } from "../validators/functions/postValidators";
+import { ResizeImagesAndSave } from "../utils";
+import { JsonResponse } from "../types";
 
 // GET ALL POSTS
 export async function getAll(req: Request, res: Response) {
@@ -64,6 +64,7 @@ export async function insert(req: Request, res: Response) {
 	try {
 		newPost = await queryInsert(req.body);
 	} catch (e) {
+		console.log(e);
 		return res
 			.status(500)
 			.setHeader("Content-Type", "application/json")

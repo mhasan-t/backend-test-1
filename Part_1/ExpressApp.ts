@@ -1,10 +1,10 @@
 import cors from "cors";
 import express, { Request, Response } from "express";
-import JsonOrFormData from "./src/middlewares/JsonOrFormdata.js";
+import JsonOrFormData from "./src/middlewares/JsonOrFormdata";
 import dotenv from "dotenv";
 
-import PostRouter from "./src/routes/postRoute.js";
-import ImageRouter from "./src/routes/imageRoutes.js";
+import PostRouter from "./src/routes/postRoute";
+import ImageRouter from "./src/routes/imageRoutes";
 
 dotenv.config();
 

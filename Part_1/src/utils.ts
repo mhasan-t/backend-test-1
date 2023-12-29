@@ -13,9 +13,8 @@ export function slugify(str: string) {
 }
 
 export async function ResizeImagesAndSave(
-	file: any | undefined
+	file: Express.Multer.File
 ): Promise<string> {
-	console.log(file);
 	let metadata = await sharp(file.path).metadata();
 
 	let newHeight = 1000;
@@ -31,5 +30,5 @@ export async function ResizeImagesAndSave(
 	fs.unlinkSync(file.path);
 	await sharp(newFile).toFile(file.path);
 
-	return file.filename as string;
+	return file.path as string;
 }

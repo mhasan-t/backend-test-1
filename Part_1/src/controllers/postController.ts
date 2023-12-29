@@ -46,7 +46,7 @@ export async function insert(req: Request, res: Response) {
 
 	// compress images
 	const files = req.files as any;
-	const mainImageFileName = await ResizeImagesAndSave(files.main_image);
+	const mainImageFileName = await ResizeImagesAndSave(files.main_image[0]);
 	req.body.main_image = mainImageFileName;
 
 	// insertion

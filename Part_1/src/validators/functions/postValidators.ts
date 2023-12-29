@@ -18,7 +18,7 @@ export function validateInsert(req: Request): {
 
 	// validate main image
 	let files = req.files as any;
-	if (!files || !files.main_image) {
+	if (!files || !files.main_image || files.main_image.length == 0) {
 		messages.push("You must upload a main_image.");
 	}
 

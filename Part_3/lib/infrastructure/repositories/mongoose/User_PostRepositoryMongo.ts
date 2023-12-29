@@ -81,4 +81,22 @@ export default class User_PostRepositoryMongo implements User_PostRepository {
 					User_Post != null
 			);
 	}
+
+	async removeAllByUserId(userId: ID): Promise<boolean | null> {
+		try {
+			MongooseUser_Post.deleteMany({ userId: userId });
+			return true;
+		} catch {
+			return false;
+		}
+	}
+
+	async removeAllByPostId(postId: ID): Promise<boolean | null> {
+		try {
+			MongooseUser_Post.deleteMany({ postId: postId });
+			return true;
+		} catch {
+			return false;
+		}
+	}
 }

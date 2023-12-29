@@ -10,9 +10,9 @@ export default interface PostRepository {
 
 	get(entityId: ID): Promise<User_Post | null>;
 
-	getByUserId(userId: ID): Promise<User_Post[]>;
+	findByUserId(userId: ID): Promise<User_Post[]>;
 
-	getByPostId(postId: ID): Promise<User_Post[]>;
+	findByPostId(postId: ID): Promise<User_Post[]>;
 
 	find(): Promise<User_Post[]>;
 }

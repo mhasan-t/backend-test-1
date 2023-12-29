@@ -52,7 +52,7 @@ export default class User_PostRepositoryMongo implements User_PostRepository {
 			);
 	}
 
-	async getByUserId(userId: ID): Promise<User_Post[]> {
+	async findByUserId(userId: ID): Promise<User_Post[]> {
 		const mongooseUser_Posts = await MongooseUser_Post.find()
 			.where("user_id")
 			.equals(userId)
@@ -67,7 +67,7 @@ export default class User_PostRepositoryMongo implements User_PostRepository {
 			);
 	}
 
-	async getByPostId(postId: ID): Promise<User_Post[]> {
+	async findByPostId(postId: ID): Promise<User_Post[]> {
 		const mongooseUser_Posts = await MongooseUser_Post.find()
 			.where("post_id")
 			.equals(postId)

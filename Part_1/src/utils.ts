@@ -15,12 +15,10 @@ export function slugify(str: string) {
 export async function ResizeImagesAndSave(
 	file: Express.Multer.File
 ): Promise<string> {
-	console.log(file);
 	let metadata = await sharp(file.path).metadata();
 
 	let newHeight = 1000;
 	let newWidth = 1000;
-	console.log(metadata);
 	if (metadata != undefined) {
 		// if image size can not be read, then it will default to 1000 X 1000
 		newHeight = Math.floor(Number(metadata.height) * 0.75);

@@ -64,7 +64,6 @@ export async function insert(req: Request, res: Response) {
 	try {
 		newPost = await queryInsert(req.body);
 	} catch (e) {
-		console.log(e);
 		return res
 			.status(500)
 			.setHeader("Content-Type", "application/json")

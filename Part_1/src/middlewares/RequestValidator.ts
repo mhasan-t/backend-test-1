@@ -20,7 +20,6 @@ export default function RequestValidator(
 		try {
 			valid = ajv.validate(schema, data);
 		} catch (err) {
-			console.log(err);
 			return res.status(500).json({ message: "Internal Server Error" });
 		}
 		if (!valid) {

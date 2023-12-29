@@ -30,7 +30,6 @@ export async function viewImage(req: Request, res: Response) {
 			return res.status(400).json({ message: "Token mismatch." });
 		}
 
-		console.log(decoded.image_path);
 		// check if file exists
 		if (!fs.existsSync(decoded.image_path)) {
 			return res

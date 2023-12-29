@@ -7,8 +7,8 @@ const router = Router();
 
 router.get("/", PostController.findPosts);
 router.get("/:id", PostController.getPost);
-router.post("/", PostController.createPost);
-router.patch("/:id", PostController.updatePost);
+router.post("/", AuthenticationMiddleware(), PostController.createPost);
+router.patch("/:id", AuthenticationMiddleware(), PostController.updatePost);
 router.delete("/:id", AuthenticationMiddleware(), PostController.deletePost);
 
 export default router;

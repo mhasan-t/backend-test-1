@@ -7,6 +7,8 @@ import UpdatePost from "../../application/use_cases/post/UpdatePost";
 import DeletePost from "../../application/use_cases/post/DeletePost";
 import { ServiceLocator } from "../../infrastructure/config/service-locator";
 import Post from "../../domain/entities/Post";
+import CreateUser_Post from "../../application/use_cases/user_post/CreateUser_Post";
+import { ID } from "../../domain/entities/Entity";
 
 export default {
 	async findPosts(request: Request, response: Response) {
@@ -65,6 +67,28 @@ export default {
 		try {
 			post = await CreatePost(data, serviceLocator);
 		} catch (err: unknown) {
+			if (err instanceof ValidationError) {
+				error = err.details[0].message;
+			} else if (err instanceof Error) {
+				// 'Error occurred while creating post'
+				error = err.message;
+			}
+		}
+
+		// Enter in User_Post for the many to many relationship
+		const userId = request.userId;
+		let userPostData = {
+			userId: userId,
+			postId: post?.id,
+		};
+
+		let userPost = null;
+		try {
+			userPost = await CreateUser_Post(userPostData, serviceLocator);
+		} catch (err: unknown) {
+			// If User_Post relationship failed to enter, then we should clean up the post
+			await DeletePost(post?.id as ID, serviceLocator);
+
 			if (err instanceof ValidationError) {
 				error = err.details[0].message;
 			} else if (err instanceof Error) {

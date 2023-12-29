@@ -1,24 +1,24 @@
 export const TokenReq = {
 	type: "object",
 	properties: {
-		path: {
+		image_path: {
 			type: "string",
 		},
 	},
-	required: ["path"],
+	required: ["image_path"],
 	additionalProperties: false,
 };
 
 export const ViewImage = {
 	type: "object",
 	properties: {
-		path: {
+		image_path: {
 			type: "string",
 		},
 		token: {
 			type: "string",
 		},
 	},
-	required: ["path", "token"],
+	required: ["image_path", "token"],
 	additionalProperties: false,
 };

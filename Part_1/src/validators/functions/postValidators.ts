@@ -12,7 +12,7 @@ export function validateInsert(req: Request): {
 		req.body.date_time > new Date().getTime()
 	) {
 		messages.push(
-			"The date_time value must be in the past and it must be a number."
+			"The date_time value must be in the past and it must be a unix time."
 		);
 	}
 

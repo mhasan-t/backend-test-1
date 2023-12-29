@@ -5,7 +5,7 @@ import { Request, Response } from "express";
 
 export async function getToken(req: Request, res: Response) {
 	const payload = {
-		image_path: req.query.path,
+		image_path: req.query.image_path,
 	};
 	let token = jwt.sign(payload, process.env.TOKEN_SECRET as string, {
 		expiresIn: "5m",
@@ -26,7 +26,7 @@ export async function viewImage(req: Request, res: Response) {
 			process.env.TOKEN_SECRET as string
 		);
 
-		if (decoded.image_path != req.body.path) {
+		if (decoded.image_path != req.body.image_path) {
 			return res.status(400).json({ message: "Token mismatch." });
 		}
 
@@ -34,7 +34,7 @@ export async function viewImage(req: Request, res: Response) {
 		if (!fs.existsSync(decoded.image_path)) {
 			return res
 				.status(400)
-				.json({ message: "Request resource does not exist." });
+				.json({ message: "Requested resource does not exist." });
 		}
 
 		const file = fs.readFileSync(decoded.image_path);

@@ -1,13 +1,12 @@
-const fs = require("fs");
-const axios = require("axios");
-const Form_Data = require("form-data");
+import fs from "fs";
+import axios from "axios";
+import Form_Data from "form-data";
 
 // Need custom fail function, because of bug in Jest
 // https://github.com/jestjs/jest/issues/11698
 function fail(reason = "fail was called in a test.") {
 	throw new Error(reason);
 }
-global.fail = fail;
 
 const baseURL = "http://localhost:8000";
 
@@ -37,7 +36,7 @@ describe("Add blog post ", () => {
 				expect(res.data.data.title).toBe("Test post");
 				expect(res.data.data.description).toBe("Test post description");
 				expect(res.data.data.date_time).toBe(1212121);
-			} catch (e) {
+			} catch (e: any) {
 				fail("it should not throw exceptions.");
 			}
 		});
@@ -57,7 +56,7 @@ describe("Add blog post ", () => {
 
 				const res = await instance.post("/", post);
 				fail("it should throw exceptions.");
-			} catch (e) {
+			} catch (e: any) {
 				expect(e.response.status).toBe(400);
 				expect(e.response.data.message).toBe("Invalid request body.");
 				expect(e.response.data.errors[0]).toBe(
@@ -87,7 +86,7 @@ describe("Add blog post ", () => {
 
 				const res = await instance.post("/", post);
 				fail("it should throw exceptions.");
-			} catch (e) {
+			} catch (e: any) {
 				expect(e.response.status).toBe(500);
 			}
 		});
@@ -107,7 +106,7 @@ describe("Add blog post ", () => {
 
 				const res = await instance.post("/", post);
 				fail("it should throw exceptions.");
-			} catch (e) {
+			} catch (e: any) {
 				expect(e.response.status).toBe(400);
 				expect(e.response.data.message).toBe("Invalid request body.");
 				expect(e.response.data.errors[1]).toBe(
@@ -131,10 +130,10 @@ describe("Add blog post ", () => {
 
 					const res = await instance.post("/", post);
 					fail("it should throw exceptions.");
-				} catch (e) {
+				} catch (e: any) {
 					expect(e.response.status).toBe(400);
 					expect(e.response.data.message[0]).toBe(
-						"The date_time value must be in the past and it must be a number."
+						"The date_time value must be in the past and it must be a unix time."
 					);
 				}
 			});
@@ -162,7 +161,7 @@ describe("Add blog post ", () => {
 				});
 
 				await instance.post("/", post);
-			} catch (e) {
+			} catch (e: any) {
 				fail("it should not throw exceptions.");
 			}
 
@@ -187,7 +186,7 @@ describe("Add blog post ", () => {
 				expect(res.data.data[res.data.data.length - 1].date_time).toBe(
 					date_time
 				);
-			} catch (e) {
+			} catch (e: any) {
 				fail("it should not throw exceptions.");
 			}
 		});
@@ -211,7 +210,7 @@ describe("Add blog post ", () => {
 				});
 
 				await instance.post("/", post);
-			} catch (e) {}
+			} catch (e: any) {}
 
 			// get all posts and check
 			try {
@@ -231,7 +230,7 @@ describe("Add blog post ", () => {
 				expect(
 					res.data.data[res.data.data.length - 1].description
 				).not.toBe(desc);
-			} catch (e) {
+			} catch (e: any) {
 				fail("it should not throw exceptions.");
 			}
 		});

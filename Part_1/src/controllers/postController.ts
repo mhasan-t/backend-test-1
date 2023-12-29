@@ -46,8 +46,22 @@ export async function insert(req: Request, res: Response) {
 
 	// compress images
 	const files = req.files as any;
+
 	const mainImageFileName = await ResizeImagesAndSave(files.main_image[0]);
 	req.body.main_image = mainImageFileName;
+
+	let additionalImages: string[] = [];
+	if (files.additional_images && files.additional_images.length > 0) {
+		for (let i = 0; i < files.additional_images.length; i++) {
+			const compressedAdImgName = await ResizeImagesAndSave(
+				files.additional_images[i]
+			);
+			additionalImages.push(compressedAdImgName);
+		}
+	}
+	if (additionalImages.length > 0) {
+		req.body.additional_images = additionalImages;
+	}
 
 	// insertion
 	let newPost;

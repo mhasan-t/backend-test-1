@@ -15,6 +15,7 @@ export function slugify(str: string) {
 export async function ResizeImagesAndSave(
 	file: Express.Multer.File
 ): Promise<string> {
+	console.log(file);
 	let metadata = await sharp(file.path).metadata();
 
 	let newHeight = 1000;

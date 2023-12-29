@@ -35,6 +35,7 @@ describe("Add blog post ", () => {
 			}
 		});
 	});
+
 	describe("With partial fields ", () => {
 		it("Should return 400 with the error message", async () => {
 			const post = new FormData();
@@ -57,6 +58,7 @@ describe("Add blog post ", () => {
 			}
 		});
 	});
+
 	describe("With main image > 1MB ", () => {
 		it("Should return 500 status", async () => {
 			const post = new Form_Data();
@@ -81,13 +83,13 @@ describe("Add blog post ", () => {
 			}
 		});
 	});
+
 	describe("With special chars in the title ", () => {
 		it("Should return 400 with the error message", async () => {
 			const post = new FormData();
 			post.append("title", "Test post@");
 			post.append("description", "Test post description");
 
-			await Promise.resolve(process.nextTick(Boolean));
 			try {
 				const instance = axios.create({
 					baseURL: baseURL,
@@ -113,7 +115,6 @@ describe("Add blog post ", () => {
 				post.append("description", "Test post description");
 				post.append("date_time", "2023-12-29T00:00:00Z");
 
-				await Promise.resolve(process.nextTick(Boolean));
 				try {
 					const instance = axios.create({
 						baseURL: baseURL,
@@ -131,4 +132,106 @@ describe("Add blog post ", () => {
 				}
 			});
 		});
+
+	describe("And get all blog posts to check success", () => {
+		it("Should return the entered blog post", async () => {
+			const title = "Test post check succ";
+			const desc = "Test post description";
+			const date_time = 1212121;
+			const imgName = "main_image_test.jpg";
+
+			const post = new Form_Data();
+			post.append("title", title);
+			post.append("description", desc);
+			post.append("date_time", date_time);
+			post.append("main_image", fs.createReadStream(imgName));
+
+			// create the post
+			try {
+				// Need to spin up new axios instance for each test, otherwise they conflict
+				const instance = axios.create({
+					baseURL: baseURL,
+					timeout: 1000,
+				});
+
+				await instance.post("/", post);
+			} catch (e) {
+				console.log(e);
+			}
+
+			// get all posts and check
+			try {
+				// Need to spin up new axios instance for each test, otherwise they conflict
+				const instance = axios.create({
+					baseURL: baseURL,
+					timeout: 1000,
+				});
+
+				const res = await instance.get("/");
+
+				expect(res.status).toBe(200);
+				expect(res.data.message).toBe("Fetched Successfully.");
+				expect(res.data.data[res.data.data.length - 1].title).toBe(
+					title
+				);
+				expect(
+					res.data.data[res.data.data.length - 1].description
+				).toBe(desc);
+				expect(res.data.data[res.data.data.length - 1].date_time).toBe(
+					date_time
+				);
+				expect(res.data.data[res.data.data.length - 1].main_image).toBe(
+					imgName
+				);
+			} catch (e) {
+				console.log(e);
+			}
+		});
+	});
+
+	describe("And get all blog posts to check FAILOUR", () => {
+		it("Should return the entered blog post", async () => {
+			const title = "inv@alid title";
+			const desc = "Test bad post description";
+
+			const post = new Form_Data();
+			post.append("title", title);
+			post.append("description", desc);
+
+			// create the post
+			try {
+				// Need to spin up new axios instance for each test, otherwise they conflict
+				const instance = axios.create({
+					baseURL: baseURL,
+					timeout: 1000,
+				});
+
+				await instance.post("/", post);
+			} catch (e) {
+				console.log(e);
+			}
+
+			// get all posts and check
+			try {
+				// Need to spin up new axios instance for each test, otherwise they conflict
+				const instance = axios.create({
+					baseURL: baseURL,
+					timeout: 1000,
+				});
+
+				const res = await instance.get("/");
+
+				expect(res.status).toBe(200);
+				expect(res.data.message).toBe("Fetched Successfully.");
+				expect(res.data.data[res.data.data.length - 1].title).not.toBe(
+					title
+				);
+				expect(
+					res.data.data[res.data.data.length - 1].description
+				).not.toBe(desc);
+			} catch (e) {
+				console.log(e);
+			}
+		});
+	});
 });

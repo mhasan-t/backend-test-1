@@ -10,5 +10,7 @@ export default interface PostRepository {
 
 	get(entityId: ID): Promise<Post | null>;
 
+	removeManyByIds(ids: ID[]): Promise<boolean | null>;
+
 	find(): Promise<Post[]>;
 }

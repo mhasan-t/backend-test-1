@@ -53,12 +53,11 @@ export default class User_PostRepositoryMongo implements User_PostRepository {
 	}
 
 	async findByUserId(userId: ID): Promise<User_Post[]> {
-		const mongooseUser_Posts = await MongooseUser_Post.find()
-			.where("user_id")
-			.equals(userId)
-			.sort({
-				createdAt: -1,
-			});
+		const mongooseUser_Posts = await MongooseUser_Post.find({
+			userId: userId,
+		}).sort({
+			createdAt: -1,
+		});
 		return mongooseUser_Posts
 			.map((mongooseUser_Post) => User_PostSTO(mongooseUser_Post))
 			.filter(
@@ -68,12 +67,11 @@ export default class User_PostRepositoryMongo implements User_PostRepository {
 	}
 
 	async findByPostId(postId: ID): Promise<User_Post[]> {
-		const mongooseUser_Posts = await MongooseUser_Post.find()
-			.where("post_id")
-			.equals(postId)
-			.sort({
-				createdAt: -1,
-			});
+		const mongooseUser_Posts = await MongooseUser_Post.find({
+			postId: postId,
+		}).sort({
+			createdAt: -1,
+		});
 		return mongooseUser_Posts
 			.map((mongooseUser_Post) => User_PostSTO(mongooseUser_Post))
 			.filter(
@@ -94,6 +92,18 @@ export default class User_PostRepositoryMongo implements User_PostRepository {
 	async removeAllByPostId(postId: ID): Promise<boolean | null> {
 		try {
 			MongooseUser_Post.deleteMany({ postId: postId });
+			return true;
+		} catch {
+			return false;
+		}
+	}
+
+	async removeManyByIds(ids: ID[]): Promise<boolean | null> {
+		try {
+			// MongooseUser_Post.deleteMany({ _id: { $in: ids } }); // does not work for some reason
+			ids.map(async (id) => {
+				await MongooseUser_Post.remove({ _id: id });
+			});
 			return true;
 		} catch {
 			return false;

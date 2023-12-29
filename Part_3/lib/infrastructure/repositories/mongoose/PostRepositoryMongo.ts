@@ -50,4 +50,16 @@ export default class PostRepositoryMongo implements PostRepository {
 			.map((mongoosePost) => PostSTO(mongoosePost))
 			.filter((Post: Post | null): Post is Post => Post != null);
 	}
+
+	async removeManyByIds(ids: ID[]): Promise<boolean | null> {
+		try {
+			// MongoosePost.deleteMany({ _id: { $in: ids } }); // does not work for some reason
+			ids.map(async (id) => {
+				await MongoosePost.remove({ _id: id });
+			});
+			return true;
+		} catch {
+			return false;
+		}
+	}
 }

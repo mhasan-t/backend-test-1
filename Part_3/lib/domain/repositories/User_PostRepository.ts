@@ -18,5 +18,7 @@ export default interface PostRepository {
 
 	removeAllByPostId(postId: ID): Promise<boolean | null>;
 
+	removeManyByIds(ids: ID[]): Promise<boolean | null>;
+
 	find(): Promise<User_Post[]>;
 }

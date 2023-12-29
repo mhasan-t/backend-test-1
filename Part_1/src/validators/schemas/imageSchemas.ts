@@ -8,3 +8,17 @@ export const TokenReq = {
 	required: ["path"],
 	additionalProperties: false,
 };
+
+export const ViewImage = {
+	type: "object",
+	properties: {
+		path: {
+			type: "string",
+		},
+		token: {
+			type: "string",
+		},
+	},
+	required: ["path", "token"],
+	additionalProperties: false,
+};

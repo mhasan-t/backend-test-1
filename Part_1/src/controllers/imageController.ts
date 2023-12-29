@@ -1,3 +1,4 @@
+import fs from "fs";
 import jwt from "jsonwebtoken";
 import { JsonResponse } from "../types.js";
 import { Request, Response } from "express";
@@ -18,4 +19,32 @@ export async function getToken(req: Request, res: Response) {
 	};
 	return res.status(200).json(result);
 }
-export async function viewImage(req: Request, res: Response) {}
+export async function viewImage(req: Request, res: Response) {
+	try {
+		const decoded: any = jwt.verify(
+			req.body.token,
+			process.env.TOKEN_SECRET as string
+		);
+
+		if (decoded.image_path != req.body.path) {
+			return res.status(400).json({ message: "Token mismatch." });
+		}
+
+		console.log(decoded.image_path);
+		// check if file exists
+		if (!fs.existsSync(decoded.image_path)) {
+			return res
+				.status(400)
+				.json({ message: "Request resource does not exist." });
+		}
+
+		const file = fs.readFileSync(decoded.image_path);
+		res.contentType("image/jpeg");
+		res.send(file);
+		return;
+	} catch (err) {
+		return res
+			.status(401)
+			.json({ message: "Unauthorized. Expired or malformed token." });
+	}
+}

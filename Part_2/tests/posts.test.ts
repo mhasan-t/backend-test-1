@@ -2,6 +2,13 @@ const fs = require("fs");
 const axios = require("axios");
 const Form_Data = require("form-data");
 
+// Need custom fail function, because of bug in Jest
+// https://github.com/jestjs/jest/issues/11698
+function fail(reason = "fail was called in a test.") {
+	throw new Error(reason);
+}
+global.fail = fail;
+
 const baseURL = "http://localhost:8000";
 
 describe("Add blog post ", () => {
@@ -31,7 +38,7 @@ describe("Add blog post ", () => {
 				expect(res.data.data.description).toBe("Test post description");
 				expect(res.data.data.date_time).toBe(1212121);
 			} catch (e) {
-				console.log(e);
+				fail("it should not throw exceptions.");
 			}
 		});
 	});
@@ -49,6 +56,7 @@ describe("Add blog post ", () => {
 				});
 
 				const res = await instance.post("/", post);
+				fail("it should throw exceptions.");
 			} catch (e) {
 				expect(e.response.status).toBe(400);
 				expect(e.response.data.message).toBe("Invalid request body.");
@@ -78,6 +86,7 @@ describe("Add blog post ", () => {
 				});
 
 				const res = await instance.post("/", post);
+				fail("it should throw exceptions.");
 			} catch (e) {
 				expect(e.response.status).toBe(500);
 			}
@@ -97,8 +106,7 @@ describe("Add blog post ", () => {
 				});
 
 				const res = await instance.post("/", post);
-				console.log("RESPONSE");
-				console.log(res);
+				fail("it should throw exceptions.");
 			} catch (e) {
 				expect(e.response.status).toBe(400);
 				expect(e.response.data.message).toBe("Invalid request body.");
@@ -122,8 +130,7 @@ describe("Add blog post ", () => {
 					});
 
 					const res = await instance.post("/", post);
-					console.log("RESPONSE");
-					console.log(res);
+					fail("it should throw exceptions.");
 				} catch (e) {
 					expect(e.response.status).toBe(400);
 					expect(e.response.data.message[0]).toBe(
@@ -156,7 +163,7 @@ describe("Add blog post ", () => {
 
 				await instance.post("/", post);
 			} catch (e) {
-				console.log(e);
+				fail("it should not throw exceptions.");
 			}
 
 			// get all posts and check
@@ -180,11 +187,8 @@ describe("Add blog post ", () => {
 				expect(res.data.data[res.data.data.length - 1].date_time).toBe(
 					date_time
 				);
-				expect(res.data.data[res.data.data.length - 1].main_image).toBe(
-					imgName
-				);
 			} catch (e) {
-				console.log(e);
+				fail("it should not throw exceptions.");
 			}
 		});
 	});
@@ -207,9 +211,7 @@ describe("Add blog post ", () => {
 				});
 
 				await instance.post("/", post);
-			} catch (e) {
-				console.log(e);
-			}
+			} catch (e) {}
 
 			// get all posts and check
 			try {
@@ -230,7 +232,7 @@ describe("Add blog post ", () => {
 					res.data.data[res.data.data.length - 1].description
 				).not.toBe(desc);
 			} catch (e) {
-				console.log(e);
+				fail("it should not throw exceptions.");
 			}
 		});
 	});

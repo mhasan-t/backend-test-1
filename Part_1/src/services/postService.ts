@@ -1,12 +1,10 @@
-import Post from "../models/Post.js";
-import { getDbConnection } from "./db.js";
-import { slugify } from "../utils.js";
+import Post from "../models/Post";
+import { getDbConnection } from "./db";
+import { slugify } from "../utils";
 
 export async function queryAll() {
 	const db = await getDbConnection();
-	await db.read();
-
-	let posts = db.data.posts;
+	let posts = await db.getData("/posts");
 
 	// add title slug and ISO datetime string in O(N) time complexity
 	for (let i = 0; i < posts.length; i++) {
@@ -19,9 +17,9 @@ export async function queryAll() {
 
 export async function queryInsert(post: Post) {
 	const db = await getDbConnection();
-	await db.read();
 
-	const latestPost = db.data.posts[db.data.posts.length - 1];
+	let posts = await db.getData("/posts");
+	const latestPost = posts[posts.length - 1];
 	let newRef = String(Number(latestPost.reference) + 1);
 
 	// APPEND ZEROES TO MAKE IT AT LEAST OF LEN 5
@@ -31,7 +29,7 @@ export async function queryInsert(post: Post) {
 	}
 	post.reference = String(newRef);
 
-	await db.update(({ posts }) => posts.push(post));
+	await db.push("/posts", post);
 
 	return post;
 }
